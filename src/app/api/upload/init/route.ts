@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { generateToken, randomId } from "@/lib/token";
 import { createSignedUploadUrls } from "@/lib/storage";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
   const { files = [], clientEncrypted = false, expiry = 60 * 60 * 24 * 7, maxDownloads = null } = body ?? {};
 
@@ -16,7 +16,12 @@ export async function POST(request: Request) {
     path: `${uploadId}/${idx}-${encodeURIComponent(f?.name || "file")}`,
   }));
 
-  const signedUploadUrls = await createSignedUploadUrls("uploads", objectPaths);
+  // Get base URL from request headers
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
+  const proto = (request.headers.get("x-forwarded-proto") || "https").split(",")[0];
+  const baseUrl = host ? `${proto}://${host}` : (process.env.BASE_URL || "http://localhost:3000");
+
+  const signedUploadUrls = await createSignedUploadUrls("uploads", objectPaths, baseUrl);
 
   const presignedUrls = signedUploadUrls.map((s, idx) => ({
     fileIndex: idx,
