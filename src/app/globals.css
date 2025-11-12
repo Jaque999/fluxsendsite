@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+:root {
+  /* FluxSend palette */
+  --background: #0b0f19; /* deep navy black */
+  --text: rgba(255,255,255,0.88);
+  --text-dim: rgba(255,255,255,0.8);
+  --accent: #14b7ff; /* refined neon cyan */
+  --accent-2: #577cff; /* electric blue-violet leaning more blue */
+  --accent-3: #00e0ff; /* lighter cyan for highlights */
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.14);
+
+  /* fonts */
+  --font-inter: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-orbitron: Orbitron, Inter, ui-sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--text);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --font-sans: var(--font-inter);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1200px 800px at 20% -10%, rgba(0,191,255,0.12), transparent 60%),
+              radial-gradient(1000px 700px at 110% 10%, rgba(123,97,255,0.14), transparent 60%),
+              var(--background);
+  color: var(--text);
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+.neon-border {
+  position: relative;
+}
+
+.neon-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(from 120deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  filter: blur(10px);
+  opacity: 0.45;
+  z-index: -1;
+}
+
+.btn-neon {
+  background: radial-gradient(120% 120% at 0% 0%, rgba(20,183,255,0.28), transparent 60%),
+              radial-gradient(120% 120% at 100% 0%, rgba(87,124,255,0.22), transparent 60%),
+              linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.16);
+  color: white;
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 24px rgba(20,183,255,0.45), 0 0 32px rgba(87,124,255,0.28) inset;
+}
+
+.btn-neon {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(0,224,255,0.18) 40%, rgba(0,224,255,0.22) 60%, transparent 100%);
+  transform: translateX(-120%);
+  animation: sweep 3.2s ease-in-out infinite;
+}
+
+.float-soft {
+  animation: float 6s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: glow 2.6s ease-in-out infinite;
+}
+
+.border-rotate {
+  background: conic-gradient(from 0deg, var(--accent) 0%, var(--accent-2) 25%, var(--accent-3) 50%, var(--accent-2) 75%, var(--accent) 100%);
+  animation: rotate 12s linear infinite;
+}
+
+.badge-neon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(20,183,255,0.12), rgba(20,183,255,0.06));
+  border: 1px solid rgba(20,183,255,0.35);
+  color: #bfeaff;
+  position: relative;
+}
+
+.badge-neon .underline {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-3), transparent);
+  filter: blur(1px);
+  animation: underline 2.4s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-120%); }
+  55% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 24px rgba(0,224,255,0.18); }
+  50% { box-shadow: 0 0 36px rgba(0,224,255,0.35); }
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes underline {
+  0%,100% { opacity: 0.3; }
+  50% { opacity: 0.85; }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.text-gradient-blue {
+  background-image: linear-gradient(180deg, #ffffff, rgba(190, 220, 255, 0.85));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.select-glass {
+  appearance: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 10px 40px 10px 12px;
+  color: white;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper .chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: rgba(255,255,255,0.7);
+}
